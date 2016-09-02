@@ -2,7 +2,8 @@
 
 > A gulp and webpack example for client and server
 
-# Install Client
+> Install client
+
 ```
 cd client
 npm install
