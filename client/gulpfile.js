@@ -1,18 +1,24 @@
-var gulp = require('gulp');
-var connect = require('gulp-connect');
-var gutil = require("gulp-util");
-var plumber = require('gulp-plumber');
-var notify = require('gulp-notify');
-var sass = require('gulp-sass');
-var changed = require('gulp-changed');
-var sourcemaps = require('gulp-sourcemaps');
-var clean = require('gulp-clean');
-var cleanCSS=require('gulp-clean-css');
-var shell = require('gulp-shell');
-var runSequence = require('run-sequence');
-var watch = require('gulp-watch');
+var gulp = require('gulp'),
+connect = require('gulp-connect'),
+exit = require('gulp-exit'),
+gutil = require("gulp-util"),
+plumber = require('gulp-plumber'),
+notify = require('gulp-notify'),
+sass = require('gulp-sass'),
+changed = require('gulp-changed'),
+sourcemaps = require('gulp-sourcemaps'),
+clean = require('gulp-clean'),
+cleanCSS=require('gulp-clean-css'),
+shell = require('gulp-shell'),
+runSequence = require('run-sequence'),
+watch = require('gulp-watch');
 
-var assetPath
+var folders={
+	public:"public",	
+	assets:"assets",
+	lib:"lib",
+	css:"css"
+} 
 
 var onError = notify.onError ({
    title: 'Error',
@@ -21,22 +27,27 @@ var onError = notify.onError ({
 
 gulp.task("html", function() {
 	return gulp.src('./src/*.html')
-		.pipe(gulp.dest('./build'))
+		.pipe(gulp.dest(folders.public))
+		.pipe(connect.reload());
+});
+
+gulp.task("lib", function() {
+	return gulp.src('./src/'+folders.lib+'/**/*')
+		.pipe(gulp.dest(folders.public+'/'+folders.lib))
 		.pipe(connect.reload());
 });
 
 gulp.task("assets", function(done) {
-	runSequence('clean', "copyassets" , function() {
-         watch('./src/assets/**/*', function (files) {
-         	
-         }).pipe(gulp.dest('build/assets'));
+	runSequence("copyassets" , function() {
+         watch('./src/'+folders.assets+'/**/*', function (files) {
+         }).pipe(gulp.dest(folders.public+'/'+folders.assets));
         done();
     });
 });
 
 gulp.task("copyassets", function() {
-	return gulp.src('./src/assets/**')
-		.pipe(gulp.dest('./build/assets'))
+	return gulp.src('./src/'+folders.assets+'/**')
+		.pipe(gulp.dest(folders.public+'/'+folders.assets))
 		.pipe(connect.reload());
 });
 
@@ -44,7 +55,7 @@ gulp.task("connect", function() {
 	connect.server({
 		base: 'http://localhost',
 		port: 8080,
-		root: './build',
+		root: folders.public,
 		livereload: true
 	});
 });
@@ -52,31 +63,44 @@ gulp.task("connect", function() {
 gulp.task('sass', function () {
   return gulp.src('./sass/**/*.scss')
 	.pipe(plumber({ errorHandler: onError }))
-	.pipe(changed('build/css'))
+	.pipe(changed(folders.public+'/'+folders.css))
     .pipe(sass().on('error', sass.logError))
     /*.pipe(cleanCSS({compatibility: 'ie8'}))*/
-    .pipe(gulp.dest('./build/css'))
+    .pipe(gulp.dest(folders.public+'/'+folders.css))
     .pipe(connect.reload());
 });
 
+gulp.task('buildsass', function () {
+  return gulp.src('./sass/**/*.scss')
+	.pipe(plumber({ errorHandler: onError }))
+	.pipe(changed(folders.public+'/'+folders.css))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest(folders.public+'/'+folders.css))
+});
+
 gulp.task("clean", function() {
-	return gulp.src('build', {read: false})
+	return gulp.src(folders.public, {read: false})
 		.pipe(clean());
 });
 
-gulp.task("webpack:dev",  shell.task(['npm run dev']));
-gulp.task("webpack:build",  shell.task(['npm run build']));
-
-gulp.task("default", ["build", "connect"], function() {
-	gulp.watch('./assets/**/*', ['assets']);
+gulp.task("watch", function(){
 	gulp.watch('./src/*.html', ['html']);
 	gulp.watch('./sass/**/*.scss', ['sass']);
 });
 
+gulp.task("npm:dev",  shell.task(['npm run dev']));
+gulp.task("js:build",  shell.task(['npm run build']));
+
 gulp.task("build", [], function(done) {
-	runSequence('clean', "webpack:build", "assets", 'sass', "html" , function() {
-        console.log('Everything clean and running');
+	return runSequence('clean', "copyassets", "lib", 'buildsass', "html" ,  "js:build", function() {
+        console.log('Everything rebuilt');
+        exit();
         done();
     });
 });
 
+gulp.task("js:dev",  ["assets", "lib", "sass", "html", "watch", "npm:dev" ]);
+gulp.task("css:dev",  ["assets", "lib", "sass", "html", "watch", "js:build", "connect" ]);
+
+gulp.task("default", ["js:dev"]);

@@ -1,4 +1,4 @@
-# Web-dev-env
+# Build example for Gamesys 
 
 > A gulp and webpack example for client and server
 
