@@ -18,7 +18,7 @@ export default class SpinnerControlPage extends React.Component {
 	}
 
 	clicked(){
-		dispatcher.dispatch("toggleSpinner");
+		dispatcher.dispatch(AppModelConst.toggleSpinner);
 	}
 
 	render () {

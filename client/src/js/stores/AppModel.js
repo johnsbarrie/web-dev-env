@@ -8,7 +8,6 @@ class AppModel extends EventEmitter {
 	
 	constructor(){
 		super();
-
 		this.spinnerStateSpinning=false;
 		/*
 		axios.get("/students.json")
@@ -36,7 +35,7 @@ class AppModel extends EventEmitter {
 
 	handleAction(action){
 		switch(action){
-			case "toggleSpinner":
+			case AppModelConst.toggleSpinner:
 				this.toggleSpinner();
 				break;
 			default :
