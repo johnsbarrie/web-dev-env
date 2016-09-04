@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactSpinner from 'react-spin';
 import dispatcher from '../Dispatcher'
+import AppModelConst from '../const/AppModelConst'
+import AppModel from '../stores/AppModel'
 export default class Spinner extends React.Component {
 	componentWillMount () {
 		this.opts = {
@@ -25,31 +27,24 @@ export default class Spinner extends React.Component {
 			, hwaccel: true // Whether to use hardware acceleration
 			, position: 'absolute' // Element positioning
 		}
-		this.showloadercontant=this.props.showloaderconstant;
-		this.hideloadercontant=this.props.hideloaderconstant;
-		dispatcher.register(this.handleAction.bind(this))
 
-
-		this.state={stopped:!this.props.spin}
+		this.state=AppModel.getSpinnerState();
+		this.setSpinnerState=this.setSpinnerState.bind(this);
+		AppModel.on(AppModelConst.spinnerStateChanged, this.setSpinnerState);
 	}
 
-		handleAction(action){
-			
-			switch(action.type){
-				case this.showloadercontant:
-					this.setState({stopped:false})
-					break;
-				case this.hideloadercontant:
-					this.setState({stopped:true})
-					break;
-			}
+	componentWillUnmount() {
+		AppModel.removeListener(AppModelConst.spinnerStateChanged, this.setSpinnerState)
+	}
 
-		}
+	setSpinnerState(){
+		this.setState(AppModel.getSpinnerState());
+	}
 
 	render () {
 		return (
 			<div >
-				<ReactSpinner config={this.opts} stopped={this.state.stopped}/>
+				<ReactSpinner config={this.opts} stopped={ !this.state.spinnerStateSpinning}/>
 			</div>
 		)
 	}

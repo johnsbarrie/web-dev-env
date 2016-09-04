@@ -9,7 +9,6 @@ export default class Tab extends React.Component {
 
 	render () {
 		const isActive = (this.router.isActive(this.props.url)) ? "active" : " "  ;
-		console.log("this.props.url : "+isActive)
 		let classes = `nav-link ${isActive}`;
 		return (
 			<li class="nav-item"><Link class={classes} to={this.props.url}>{this.props.title}</Link></li>

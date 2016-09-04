@@ -1,13 +1,16 @@
 import { EventEmitter } from 'events';
 import _ from "lodash";
 import axios from "axios"
-
 import dispatcher from "../Dispatcher";
+import AppModelConst from '../const/AppModelConst'
 
 class AppModel extends EventEmitter {
+	
 	constructor(){
 		super();
-		this.students=[]
+
+		this.spinnerStateSpinning=false;
+		/*
 		axios.get("/students.json")
   			.then((response)=> {
   				try{
@@ -17,89 +20,32 @@ class AppModel extends EventEmitter {
   					console.log("student json erreur",e);
   				}
   			})
-
-		this.studentTableInfo=[ 
-								{ key:'surname', lang:{'fr':"Nom", 'en':"Name"} },
-								{ key:'firstname', lang:{'fr':"Prénom", 'en':'firstname'} }, 
-								{ key:'year', lang:{'fr':"Année", 'en':'Year'} }, 
-								{ key:'cursus', lang:{'fr':"Cursus", 'en':'Cursus'} },
-								{ key:'cycle', lang:{'fr':"Cycle", 'en':'Cycle'} },
-								{ key:'specialisation',lang:{'fr':"Spécialisation", 'en':'Cursus'}}]
-
-		this.years=["1", "2", "3", "4", "5",  "6"];
-		this.cycles=["1", "2", "3", "4", "5"];
-		this.cursus=["Massage", "Acupuncture", "Pharmacopée"];
-		this.specialisations=["Aucune", "Otologie", "Rhinologie", "Pharyngologie", 
-								"Laryngologie", "Ophtalmologie", "Rhumatologie", 
-								"Hématologie", "Endocrinologie", "Gastro-entérologie", 
-								"Hépatologie", "Pneumologie", "Cardiologie", "Neurologie",
-								"Uro-néphrologie", "Dermatologie", "Gynécologie"];
+		*/
 	}
 
-	addStudent(student){
-		student.id=String(Date.now());
-		this.students.push(student);
-		this.emit("change");
+	toggleSpinner(){
+		this.spinnerStateSpinning=!this.spinnerStateSpinning;
+		this.emit(AppModelConst.spinnerStateChanged);
 	}
 
-	updateStudent(student){
-		var studentToUpdate=_.find(this.students, function(obj) { return obj.id == student.id })
-		
-		for (var prop in studentToUpdate){
-			studentToUpdate[prop]= student[prop];
-		}
-
-		
-		this.emit("change");
-	}
-
-	getStudentTableInfo(){
-		return this.studentTableInfo;
-	}
-
-	getStudentArray(){
-		return this.students;
-	}
-
-	getStudentById(id){
-		return _.find(this.students, function(obj) { return obj.id === id } );
-	}
-
-	getYears(){
-		return this.years;
-	}
-
-	getCycles(){
-		return this.cycles;
-	}
-
-	getCursus(){
-		return this.cursus;
-	}
-
-	getSpecialisations(){
-		return this.specialisations;
+	getSpinnerState(){
+		var spinState={spinnerStateSpinning:this.spinnerStateSpinning}
+		spinState.text= this.spinnerStateSpinning ? "Stop Spinner" : "Start Spinner";
+		return spinState;
 	}
 
 	handleAction(action){
-		
 		switch(action){
-			case "firstnameChanged" :{
-				console.log("YES!! ");		
-			}
-
-			break;
-
-			
+			case "toggleSpinner":
+				this.toggleSpinner();
+				break;
+			default :
+				console.log("action "+ action +" not handled")
 		}
 	}
 }
 
+const appModel = new AppModel;
+export default appModel;
 
-
-const studentStore = new StudentStore;
-window.studentStore=studentStore;
-window.dispatcher=dispatcher;
-export default studentStore;
-
-dispatcher.register(studentStore.handleAction.bind(studentStore))
+dispatcher.register(appModel.handleAction.bind(appModel))

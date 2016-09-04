@@ -7,7 +7,22 @@ export default class QRcode extends React.Component {
 	componentWillMount () {
 		this.game= new QRCodeVisual();
 		this.state={url:"gamesyscorporate.com"};
-		this.generateStructure(this.state.url);
+		this.generateStructure(this.state.url);		
+	}
+
+	componentDidMount () {
+		document.onkeydown =this.keyDown.bind(this)
+	}
+
+	componentUnmount() {
+		document.onkeydown =null;
+	}
+
+	keyDown(e){
+		e = e || window.event;
+		if (e.keyCode == 13) {
+			this.onClick();
+		}
 	}
 
 	generateStructure(text){
@@ -46,7 +61,7 @@ export default class QRcode extends React.Component {
 				<div><Pixi ref='qrcode' gameId="qrcode" game={ this.game } width="400" height="400"  /> </div>
 				<div class="row">
 					<div class="col-sm-4">
-						<LabeledInput id="url" label="URL" required={true} onChanged={this.onChanged.bind(this)} value={ this.state.url }/>
+						<LabeledInput  id="url" label="URL" required={true} onChanged={this.onChanged.bind(this)} value={ this.state.url }/>
 					</div>
 					<div class="col-sm-2"> 
 						<button class="btn btn-info" onClick={ this.onClick.bind(this)} >generate</button>
