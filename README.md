@@ -2,24 +2,29 @@
 
 > A gulp and webpack example for client and server
 
-> Install client
+### Install client
 
 ```
 cd client
 npm install
 bower install
-```
-
-> Run javascript dev for client ([localhost:8080](http://localhost:8080)).
 
 ```
-cd client
+
+> Run client javascript for javascript ([localhost:8080](http://localhost:8080)).
+
+```
 gulp
-```
-
-> Run javascript dev for css ([localhost:8080](http://localhost:8080)).
 
 ```
-cd client
+
+> Run client dev for css ([localhost:8080](http://localhost:8080)).
+
+```
 gulp css:dev
+
 ```
+
+### Install server
+
+TODO
