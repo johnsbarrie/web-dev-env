@@ -14,12 +14,12 @@ bower install
 
 ```
 cd client
-gulp webpack:dev
+gulp
 ```
 
 > Run javascript dev for css ([localhost:8080](http://localhost:8080)).
 
 ```
 cd client
-gulp webpack:dev
+gulp css:dev
 ```
