@@ -6,20 +6,20 @@ import Foot from './Footer';
 import Spinner from '../components/Spinner';
 
 export default class Layout extends React.Component {
+	/**
+		basic layout with dynamic tab generated from a object. 
+		This is not necessary good practice but it shows how to dynamic React views from an object.
+	*/
 	constructor(){
 		super();
 		this.state={
 			title: "Welcome",
 			sections:[ 
 						{  title:"Welcome", url:"home"  },
+						{  title:"Spinner", url:"spinner" },
 						{  title:"QRcode", url:"qrcode"  },
-						{  title:"Spinner", url:"spinner" }
 					]
 		}
-	}
-
-	changeTitle(title){
-		this.setState({title})
 	}
 
 	render (){

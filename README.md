@@ -1,6 +1,8 @@
 # Build example for Gamesys 
 
-> A gulp and webpack example for client and server
+> A example for client and server environment for ReactJS in es6
+>(gulp, webpack, react, flux, bootstrap 4, sass, babel)
+
 
 ### Install client
 

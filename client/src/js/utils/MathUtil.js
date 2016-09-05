@@ -1,5 +1,7 @@
 
-
+/**
+ MathUtils class with static methods
+*/
 
 export default class  MathUtil{
 

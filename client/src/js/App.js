@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route , IndexRoute, hashHistory, IndexRedirect } from 'react-router';
+import Layout from './jsx/layout/Layout';
+import Home from './jsx/pages/Home';
+import QRCode from './jsx/pages/QRCode';
+import SpinnerControl from './jsx/pages/Spinner';
 
-import Layout from './layout/Layout';
-import Home from './pages/Home';
-import QRCode from './pages/QRCode';
-import SpinnerControl from './pages/SpinnerControlPage';
-
+/**
+React Router Setup
+*/
 ReactDOM.render(
 	<Router history={hashHistory}>
 		<Route path="/" component={Layout}>	

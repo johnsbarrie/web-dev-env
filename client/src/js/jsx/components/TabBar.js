@@ -9,13 +9,14 @@ export default class TabBar extends React.Component {
 		this.router = context.router;
 		this.location = context.location;
 	}
-
+	/**
+	Render tab bar using 
+	*/
 	render () {
 		return (
 			<ul class="nav nav-tabs">
 			{ this.props.sections.map((tab,i)=>{
-				return ( <Tab url={ tab.url } title={tab.title} key={i}/> );
-				})
+				return ( <Tab url={ tab.url } title={tab.title} key={i}/> ); })
 			}
 			</ul>
 		)

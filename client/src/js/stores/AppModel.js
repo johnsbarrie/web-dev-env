@@ -3,40 +3,51 @@ import _ from "lodash";
 import axios from "axios"
 import dispatcher from "../Dispatcher";
 import AppModelConst from '../const/AppModelConst'
-
+/**
+	AppModel to stock application state and emit changes
+*/
 class AppModel extends EventEmitter {
 	
 	constructor(){
 		super();
-		this.spinnerStateSpinning=false;
-		/*
-		axios.get("/students.json")
-  			.then((response)=> {
-  				try{
-  					this.students=JSON.parse(JSON.stringify(response.data));
-  					this.emit("change");
-  				}catch(e){
-  					console.log("student json erreur",e);
-  				}
-  			})
-		*/
+		//spinner state
+		this._spinnerStateSpinning=false;
+		this._qrcodeUrl="gamesyscorporate.com";
 	}
 
+	// toggle spinner state
 	toggleSpinner(){
-		this.spinnerStateSpinning=!this.spinnerStateSpinning;
+
+		this._spinnerStateSpinning=!this._spinnerStateSpinning;
+		
 		this.emit(AppModelConst.spinnerStateChanged);
 	}
 
-	getSpinnerState(){
-		var spinState={spinnerStateSpinning:this.spinnerStateSpinning}
-		spinState.text= this.spinnerStateSpinning ? "Stop Spinner" : "Start Spinner";
+	// actual state of the spinner
+	get spinnerState(){
+		var spinState = {spinnerStateSpinning:this._spinnerStateSpinning}
+		spinState.text = this._spinnerStateSpinning ? "Stop Spinner" : "Start Spinner";
 		return spinState;
 	}
 
-	handleAction(action){
-		switch(action){
+	//stock the url
+	qrcodeUrlChanging(url){
+		this._qrcodeUrl=url;
+		this.emit(AppModelConst.qrcodeUrlChanged);
+	}
+
+	get qrcodeState(){
+		return {url:this._qrcodeUrl};
+	}
+
+	// handle flux emitions 
+	handleAction(e){
+		switch(e.action){
 			case AppModelConst.toggleSpinner:
 				this.toggleSpinner();
+				break;
+			case AppModelConst.qrcodeUrlChanging:
+				this.qrcodeUrlChanging(e.data); 
 				break;
 			default :
 				console.log("action "+ action +" not handled")
