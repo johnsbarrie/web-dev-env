@@ -13,20 +13,23 @@ bower install
 
 ```
 
-> Run client javascript for javascript ([localhost:8080](http://localhost:8080)).
+> Run for javascript dev ([localhost:8080](http://localhost:8080)) :
 
 ```
 gulp
 
 ```
 
-> Run client dev for css ([localhost:8080](http://localhost:8080)).
+> For css dev ([localhost:8080](http://localhost:8080)) :
 
 ```
 gulp css:dev
 
 ```
 
-### Install server
+> For final build 
 
-TODO
+```
+gulp build
+
+```
