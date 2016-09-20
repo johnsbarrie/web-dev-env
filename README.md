@@ -4,28 +4,23 @@
 >(gulp, webpack, react, flux, bootstrap 4, sass, babel)
 
 
-### Install client
+### Install 
 
 ```
 cd client
-npm install
 bower install
+npm install
+
 
 ```
 
-> Run for javascript dev ([localhost:8080](http://localhost:8080)) :
+> Run for dev ([localhost:8080](http://localhost:8080)) :
 
 ```
 gulp
 
 ```
 
-> For css dev ([localhost:8080](http://localhost:8080)) :
-
-```
-gulp css:dev
-
-```
 
 > For final build 
 
