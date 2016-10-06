@@ -6,7 +6,7 @@ export default class Footer extends React.Component {
 		return (
 			<footer>
 				<hr/>
-				<div class="blockquote-footer">Flux Example for Gamesys</div>
+				<div class="blockquote-footer">Flux Example</div>
 			</footer>
 		)
 	}

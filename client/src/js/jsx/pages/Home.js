@@ -7,8 +7,8 @@ export default class SpinnerControlPage extends React.Component {
 				<div class="card ">
 					<div class=" card-header card-info">ReactJS - Flux Development environment</div>
 					<div class="card-block ">
-						<p  class="card-text ">Hello Gamesys</p>
-						<p  class="card-text ">There are two examples in the client : </p>
+						<p  class="card-text ">Hello, </p>
+						<p  class="card-text ">There are two examples in this client : </p>
 						<ul>
 							<li><i>[Spinner tab]</i> shows a basic <i>React-Flux</i> interaction </li>
 							<li><i>[QRcode panel]</i> has React interacting with a Pixi stage</li>

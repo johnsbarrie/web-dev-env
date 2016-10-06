@@ -38,6 +38,7 @@
     "webpack-dev-server": "^1.15.1"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.4",
     "axios": "^0.14.0",
     "flux": "^2.1.1",
     "qrcode-npm": "0.0.3",
