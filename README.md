@@ -1,4 +1,4 @@
-# Build example for Gamesys 
+# Build example for an express, reactjs env
 
 > A example for client and server environment for ReactJS in es6
 >(gulp, webpack, react, flux, bootstrap 4, sass, babel)
@@ -8,7 +8,6 @@
 
 ```
 cd client
-bower install
 npm install
 
 
