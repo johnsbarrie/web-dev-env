@@ -2,3 +2,4 @@
 client/node_modules/
 client/build/
 client/bower_components/
+server/node_modules/
