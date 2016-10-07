@@ -9,4 +9,8 @@ export default class AppModelConstants {
 	// qrcode 
 	static get qrcodeUrlChanging(){ return "qrcodeUrlChanging"; };	
 	static get qrcodeUrlChanged(){ return "qrcodeUrlChanged"; };	
+
+	// qrcode 
+	static get loadJson(){ return "loadJson"; };	
+	static get jsonLoaded(){ return "jsonLoaded"; };	
 }

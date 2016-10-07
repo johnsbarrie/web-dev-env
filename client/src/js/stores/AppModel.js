@@ -10,27 +10,28 @@ class AppModel extends EventEmitter {
 	
 	constructor(){
 		super();
-		//spinner state
+		// spinner state
 		this._spinnerStateSpinning=false;
-		this._qrcodeUrl="gamesyscorporate.com";
+		this._qrcodeUrl="lamenagerie.com";
 	}
-
-	// toggle spinner state
+	/**
+		toggle spinner state
+	*/
 	toggleSpinner(){
-
 		this._spinnerStateSpinning=!this._spinnerStateSpinning;
-		
 		this.emit(AppModelConst.spinnerStateChanged);
 	}
-
-	// actual state of the spinner
+	/**
+		actual state of the spinner
+	*/
 	get spinnerState(){
 		var spinState = {spinnerStateSpinning:this._spinnerStateSpinning}
 		spinState.text = this._spinnerStateSpinning ? "Stop Spinner" : "Start Spinner";
 		return spinState;
 	}
-
-	//stock the url
+	/** 
+		stock the url
+	*/
 	qrcodeUrlChanging(url){
 		this._qrcodeUrl=url;
 		this.emit(AppModelConst.qrcodeUrlChanged);
@@ -40,7 +41,18 @@ class AppModel extends EventEmitter {
 		return {url:this._qrcodeUrl};
 	}
 
-	// handle flux emitions 
+	loadJson() {
+		axios.get('http://localhost/users')
+		.then(function (response) {
+		    console.log(response);
+		})
+		.catch(function (error) {
+		    console.log(error);
+		});
+	}
+	/**
+		handle flux emitions 
+	*/
 	handleAction(e){
 		switch(e.action){
 			case AppModelConst.toggleSpinner:
@@ -49,8 +61,11 @@ class AppModel extends EventEmitter {
 			case AppModelConst.qrcodeUrlChanging:
 				this.qrcodeUrlChanging(e.data); 
 				break;
+			case AppModelConst.loadJson:
+				this.loadJson();
+				break;
 			default :
-				console.log("action "+ action +" not handled")
+				console.log("Appmodel action "+ action +" not handled")
 		}
 	}
 }
