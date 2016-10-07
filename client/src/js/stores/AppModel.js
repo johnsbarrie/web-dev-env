@@ -12,7 +12,7 @@ class AppModel extends EventEmitter {
 		super();
 		// spinner state
 		this._spinnerStateSpinning=false;
-		this._qrcodeUrl="lamenagerie.com";
+		this._qrcodeUrl = "lamenagerie.com";
 	}
 	/**
 		toggle spinner state
